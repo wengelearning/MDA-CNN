@@ -28,7 +28,7 @@ def parse_args():
                         help='sample label')
     parser.add_argument('--batch_size', nargs='?', default=64,
                         help = 'number of samples in one batch')
-    parser.add_argument('--training_epochs', nargs='?', default=100,
+    parser.add_argument('--training_epochs', nargs='?', default=1,
                         help= 'number of epochs in SGD')
     parser.add_argument('--display_step', nargs='?', default=10)
     parser.add_argument('--test_percentage', nargs='?', default=0.1,
@@ -163,15 +163,15 @@ def main(args):
 
 
                         loss = sess.run(los, feed_dict={input_data: x_train, input_label: y_train, keep_prob :1.0})
-                        print('after training loss = %f' % loss)
+                        # print('after training loss = %f' % loss)
                         y_predict = sess.run(y_res, feed_dict={input_data: x_dev, input_label: y_dev, keep_prob :1.0})[:, 1]
 
                         loss = sess.run(los, feed_dict={input_data: x_dev, input_label: y_dev, keep_prob :1.0})
-                        print('test loss = %f' % loss)
+                        # print('test loss = %f' % loss)
 
                         false_positive_rate1, true_positive_rate1, thresholds1 = roc_curve(np.array(y_dev)[:, 1], y_predict)
                         roc_auc1 = auc(false_positive_rate1, true_positive_rate1)
-                        print(roc_auc1)
+                        # print(roc_auc1)
                 print(accuracy.eval(feed_dict = {input_data: test_data, input_label: test_label, keep_prob :1.0}))
 
                 y_predict = sess.run(y_res, feed_dict={input_data: test_data, input_label: test_label, keep_prob :1.0})[:, 1]
